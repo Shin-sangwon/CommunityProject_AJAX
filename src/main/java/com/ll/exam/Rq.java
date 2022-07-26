@@ -55,6 +55,20 @@ public class Rq {
         }
     }
 
+    public long getLongParam(String paramName, long defaultValue){
+        String value = req.getParameter(paramName);
+
+        if( value == null){
+            return defaultValue;
+        }
+        try {
+            return Long.parseLong(value);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
+
+    }
+
     public void appendBody(String str) {
         try {
             resp.getWriter().append(str);
@@ -84,5 +98,37 @@ public class Rq {
 
     public String getMethod() {
         return req.getMethod();
+    }
+
+    public String getActionPath(){
+        String[] bits = req.getRequestURI().split("/");
+
+        return "/%s/%s/%s".formatted(bits[1], bits[2], bits[3]);
+    }
+
+
+    public long getLongPathValueByIndex(int index, long defaultValue) {
+        String value = getPathValueByIndex(index, null);
+
+        if ( value == null ) {
+            return defaultValue;
+        }
+
+        try {
+            return Long.parseLong(value);
+        }
+        catch ( NumberFormatException e ) {
+            return defaultValue;
+        }
+    }
+
+    public String getPathValueByIndex(int index, String defaultValue) {
+        String[] bits = req.getRequestURI().split("/");
+
+        try {
+            return bits[4 + index];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return defaultValue;
+        }
     }
 }
