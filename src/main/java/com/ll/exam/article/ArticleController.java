@@ -23,4 +23,9 @@ public class ArticleController {
     public void showWrite(Rq rq) {
         rq.view("usr/article/write");
     }
+
+    public void doWrite(Rq rq){
+        rq.appendBody("<div>title : %s</div>".formatted(rq.getParam("title", "")));
+        rq.appendBody("<div>body : %s</div>".formatted(rq.getParam("body", "")));
+    }
 }
