@@ -72,15 +72,7 @@ public class ArticleController {
             return;
         }
 
-        List<ArticleDto> list = articleService.findAll();
-
-        for(var deleteDto : list){
-            if(deleteDto.equals(articleDto)) {
-                list.remove(deleteDto);
-                break;
-            }
-
-        }
+        articleService.delete(id);
 
         rq.appendBody("삭제가 완료되었습니다.");
     }
@@ -104,11 +96,8 @@ public class ArticleController {
             return;
         }
 
-        String title = rq.getParam("title", "");
-        String body = rq.getParam("body", "");
 
-        articleDto.setTitle(title);
-        articleDto.setBody(body);
+        articleService.modify(rq, id);
 
         rq.appendBody("수정이 완료되었습니다.");
 

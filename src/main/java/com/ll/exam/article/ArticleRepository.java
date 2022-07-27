@@ -1,5 +1,6 @@
 package com.ll.exam.article;
 
+import com.ll.exam.Rq;
 import com.ll.exam.article.dto.ArticleDto;
 
 import java.util.ArrayList;
@@ -36,5 +37,25 @@ public class ArticleRepository {
         }
 
         return null;
+    }
+
+    public void delete(long id) {
+
+        ArticleDto articleDto = findById(id);
+
+        if(articleDto == null) return;
+
+        data.remove(articleDto);
+
+    }
+
+    public void modify(Rq rq, long id) {
+        ArticleDto articleDto = findById(id);
+
+        String title = rq.getParam("title", "");
+        String body = rq.getParam("body", "");
+
+        articleDto.setTitle(title);
+        articleDto.setBody(body);
     }
 }

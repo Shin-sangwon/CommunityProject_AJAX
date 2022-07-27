@@ -28,21 +28,21 @@
     <div>
         <span>제목</span>
         <div>
-            <input name="title" type="text" maxlength="100" placeholder="제목을 입력해주세요." />
+            <input name="title" type="text" maxlength="100" placeholder="수정할 제목을 입력해주세요." />
         </div>
     </div>
 
     <div>
         <span>내용</span>
         <div>
-            <input name="body" type="text" maxlength="300" placeholder="내용을 입력해주세요." />
+            <input name="body" type="text" maxlength="300" placeholder="수정할 내용을 입력해주세요." />
         </div>
     </div>
 
     <div>
         <span>전송</span>
         <div>
-            <input type="submit" value ="작성" />
+            <input type="submit" value ="수정" />
         </div>
     </div>
 

@@ -1,5 +1,6 @@
 package com.ll.exam.article;
 
+import com.ll.exam.Rq;
 import com.ll.exam.article.dto.ArticleDto;
 
 import java.util.List;
@@ -22,5 +23,13 @@ public class ArticleService {
 
     public ArticleDto findById(long id) {
         return articleRepository.findById(id);
+    }
+
+    public void delete(long id){
+        articleRepository.delete(id);
+    }
+
+    public void modify(Rq rq, long id) {
+        articleRepository.modify(rq, id);
     }
 }
