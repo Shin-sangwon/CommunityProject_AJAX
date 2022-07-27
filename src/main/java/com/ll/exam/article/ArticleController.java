@@ -84,4 +84,33 @@ public class ArticleController {
 
         rq.appendBody("삭제가 완료되었습니다.");
     }
+
+    public void showModify(Rq rq) {
+        rq.view("usr/article/modify");
+    }
+
+    public void doModify(Rq rq) {
+        long id = rq.getLongPathValueByIndex(1, 0);
+
+        if(id == 0){
+            rq.appendBody("알맞은 번호를 입력 해 주세요");
+            return;
+        }
+
+        ArticleDto articleDto = articleService.findById(id);
+
+        if(articleDto == null){
+            rq.appendBody("해당 글이 존재하지 않습니다.");
+            return;
+        }
+
+        String title = rq.getParam("title", "");
+        String body = rq.getParam("body", "");
+
+        articleDto.setTitle(title);
+        articleDto.setBody(body);
+
+        rq.appendBody("수정이 완료되었습니다.");
+
+    }
 }
