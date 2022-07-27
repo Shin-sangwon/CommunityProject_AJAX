@@ -52,6 +52,8 @@ public class ArticleRepository {
     public void modify(Rq rq, long id) {
         ArticleDto articleDto = findById(id);
 
+        if(articleDto == null) return;
+
         String title = rq.getParam("title", "");
         String body = rq.getParam("body", "");
 

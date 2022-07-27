@@ -1,4 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.ll.exam.article.dto.ArticleDto" %>
+
+<%
+    ArticleDto article = (ArticleDto)request.getAttribute("article");
+%>
 
 <h1>게시물 수정</h1>
 
@@ -26,16 +31,23 @@
 
 <form method = "POST" onsubmit="ArticleModify__submitForm(this); return false;">
     <div>
+        <span>번호</span>
+        <div>
+            <%=article.getId()%>
+        </div>
+    </div>
+
+    <div>
         <span>제목</span>
         <div>
-            <input name="title" type="text" maxlength="100" placeholder="수정할 제목을 입력해주세요." />
+            <input name="title" type="text" maxlength="100" placeholder="수정할 제목을 입력해주세요." value = "<%=article.getTitle()%>" />
         </div>
     </div>
 
     <div>
         <span>내용</span>
         <div>
-            <input name="body" type="text" maxlength="300" placeholder="수정할 내용을 입력해주세요." />
+            <input name="body" type="text" maxlength="300" placeholder="수정할 내용을 입력해주세요." value ="<%=article.getBody()%>" />
         </div>
     </div>
 
