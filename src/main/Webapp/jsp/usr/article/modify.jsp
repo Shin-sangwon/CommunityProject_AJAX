@@ -48,7 +48,7 @@
 
             <div>
                 <div>
-                    <input class="hover:underline hover:text-[red] cursor-pointer" type="submit" value="수정" />
+                    <input class="hover:underline hover:text-[blue] cursor-pointer"  type="submit" value="수정" />
                 </div>
             </div>
         </form>
