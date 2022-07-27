@@ -56,4 +56,32 @@ public class ArticleController {
         rq.setAttr("article", articleDto);
         rq.view("/usr/article/detail");
     }
+
+    public void doDelete(Rq rq) {
+        long id = rq.getLongPathValueByIndex(1, 0);
+
+        if(id == 0){
+            rq.appendBody("알맞은 번호를 입력 해 주세요");
+            return;
+        }
+
+        ArticleDto articleDto = articleService.findById(id);
+
+        if(articleDto == null){
+            rq.appendBody("해당 글이 존재하지 않습니다.");
+            return;
+        }
+
+        List<ArticleDto> list = articleService.findAll();
+
+        for(var deleteDto : list){
+            if(deleteDto.equals(articleDto)) {
+                list.remove(deleteDto);
+                break;
+            }
+
+        }
+
+        rq.appendBody("삭제가 완료되었습니다.");
+    }
 }
