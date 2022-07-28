@@ -106,15 +106,19 @@ public class ArticleController {
     }
 
     public void getArticles(Rq rq) {
-        List<ArticleDto> articleDtoList = articleService.findAll();
+        long fromId = rq.getLongParam("fromId", -1);
 
+        List<ArticleDto> articleDtoList;
+
+        if(fromId == -1) {
+            articleDtoList = articleService.findAll();
+        }else{
+            articleDtoList = articleService.findAllIdGreaterThan(fromId);
+        }
+        //http://localhost:8081/usr/article/getArticles?fromId=
         LinkedHashMap<String, Object> resultData = Util.mapOf("resultCode", "S-1", "msg", "성공", "data", articleDtoList);
 
-        /*
-        resultData.put("resultCode", "S-1");
-        resultData.put("msg", "성공");
-        resultData.put("data", articleDtoList);
-        */
+
 
         rq.json(resultData);
     }
