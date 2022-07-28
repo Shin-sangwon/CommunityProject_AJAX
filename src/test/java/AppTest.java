@@ -1,9 +1,12 @@
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.ll.exam.article.dto.ArticleDto;
 import com.ll.exam.Util.Util;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,7 +18,8 @@ public class AppTest {
     }
 
     @Test
-    void ObjectMapper__objToJsonStr() {
+        // ArticleDto => JS객체(단순)
+    void ObjectMapper__articleDtoToJsonStr() {
         ArticleDto articleDto = new ArticleDto(1, "제목", "내용");
 
         String jsonStr = Util.json.toStr(articleDto, "");
@@ -26,24 +30,66 @@ public class AppTest {
     }
 
     @Test
+        // List<ArticleDto> => JS배열
+    void ObjectMapper__articleDtoListToJsonStr() {
+        List<ArticleDto> articleDtos = new ArrayList<>();
+        articleDtos.add(new ArticleDto(1, "제목1", "내용1"));
+        articleDtos.add(new ArticleDto(2, "제목2", "내용2"));
+
+        String jsonStr = Util.json.toStr(articleDtos, "");
+        assertThat(jsonStr).isEqualTo("""
+                [{"id":1,"title":"제목1","body":"내용1"},{"id":2,"title":"제목2","body":"내용2"}]
+                """.trim());
+    }
+
+    @Test
+        // Map<String, ArticleDto> => JS객체(복잡)
+    void ObjectMapper__articleDtoMapToJsonStr() {
+        Map<String, ArticleDto> articleDtoMap = new HashMap<>();
+        articleDtoMap.put("가장오래된", new ArticleDto(1, "제목1", "내용1"));
+        articleDtoMap.put("최신", new ArticleDto(2, "제목2", "내용2"));
+        String jsonStr = Util.json.toStr(articleDtoMap, "");
+        assertThat(jsonStr).isEqualTo("""
+                {"가장오래된":{"id":1,"title":"제목1","body":"내용1"},"최신":{"id":2,"title":"제목2","body":"내용2"}}
+                """.trim());
+    }
+
+    @Test
+        // JS객체(단순) => ArticleDto
     void ObjectMapper__jsonStrToObj() {
         ArticleDto articleDtoOrigin = new ArticleDto(1, "제목", "내용");
         String jsonStr = Util.json.toStr(articleDtoOrigin, "");
 
         ArticleDto articleDtoFromJson = Util.json.toObj(jsonStr, ArticleDto.class, null);
-
         assertThat(articleDtoOrigin).isEqualTo(articleDtoFromJson);
     }
 
     @Test
-    void ObjectMapper__listToJson() {
-        List<ArticleDto> dtoList = new ArrayList<>();
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < 10; i++){
-            dtoList.add(new ArticleDto(i, "제목"+i, "내용+i"));
-            sb.append(Util.json.toStr(dtoList.get(i), ""));
-        }
+        // JS배열 => List<ArticleDto>
+    void ObjectMapper__jsonStrToArticleDtoList() {
+        List<ArticleDto> articleDtos = new ArrayList<>();
+        articleDtos.add(new ArticleDto(1, "제목1", "내용1"));
+        articleDtos.add(new ArticleDto(2, "제목2", "내용2"));
 
-        System.out.println(sb);
+        String jsonStr = Util.json.toStr(articleDtos, "");
+
+        List<ArticleDto> articleDtosFromJson = Util.json.toObj(jsonStr, new TypeReference<>() {
+        }, null);
+
+        assertThat(articleDtosFromJson).isEqualTo(articleDtos);
+    }
+
+    @Test
+        // JS객체(복잡) => Map<String, ArticleDto>
+    void ObjectMapper__jsonStrToArticleDtoMap() {
+        Map<String, ArticleDto> articleDtoMap = new HashMap<>();
+        articleDtoMap.put("가장오래된", new ArticleDto(1, "제목1", "내용1"));
+        articleDtoMap.put("최신", new ArticleDto(2, "제목2", "내용2"));
+        String jsonStr = Util.json.toStr(articleDtoMap, "");
+
+        Map<String, ArticleDto> articleDtoMapFromJson = Util.json.toObj(jsonStr, new TypeReference<>() {
+        }, null);
+
+        assertThat(articleDtoMapFromJson).isEqualTo(articleDtoMap);
     }
 }
