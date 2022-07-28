@@ -5,8 +5,7 @@ import com.ll.exam.Util.Util;
 import com.ll.exam.article.dto.ArticleDto;
 
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ArticleController {
 
@@ -109,6 +108,14 @@ public class ArticleController {
     public void getArticles(Rq rq) {
         List<ArticleDto> articleDtoList = articleService.findAll();
 
-        rq.json(articleDtoList);
+        LinkedHashMap<String, Object> resultData = Util.mapOf("resultCode", "S-1", "msg", "성공", "data", articleDtoList);
+
+        /*
+        resultData.put("resultCode", "S-1");
+        resultData.put("msg", "성공");
+        resultData.put("data", articleDtoList);
+        */
+
+        rq.json(resultData);
     }
 }
