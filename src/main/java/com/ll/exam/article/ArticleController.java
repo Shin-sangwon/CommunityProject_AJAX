@@ -122,4 +122,8 @@ public class ArticleController {
 
         rq.json(resultData);
     }
+
+    public void showListAuto(Rq rq) {
+        rq.view("usr/article/listAuto");
+    }
 }
